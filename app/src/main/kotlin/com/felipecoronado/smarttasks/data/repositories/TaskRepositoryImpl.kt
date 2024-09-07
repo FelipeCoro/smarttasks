@@ -21,7 +21,7 @@ class TaskRepositoryImpl @Inject constructor(private val service: RetrofitServic
                 }
                 val responseBody = response.body() ?: throw Exception("Response body is null")
 
-                Result.success(responseBody.map { it.toTaskModel() })
+                Result.success(responseBody.tasks.map { it.toTaskModel() })
 
             } catch (e: Exception) {
                 Result.failure(e)

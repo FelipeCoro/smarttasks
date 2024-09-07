@@ -37,7 +37,9 @@ fun TasksListScreen() {
 @Composable
 fun TaskItem(task: TaskModel) {
     // Define how each task item should be displayed
-    Text(text = "1")
+    Text(text = task.id)
+    Text(text = task.dueDate)
+    Text(text = task.targetDate)
 }
 
 

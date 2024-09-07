@@ -6,23 +6,26 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.felipecoronado.smarttasks.ui.screens.tasks.TasksListScreen
 import com.felipecoronado.smarttasks.ui.theme.SmartTasksTheme
+import com.felipecoronado.smarttasks.ui.theme.YellowMain
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
+
         setContent {
             SmartTasksTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color.Black
+                    color = YellowMain
                 ) {
+                   // LoadingScreen()
                     TasksListScreen()
                 }
             }

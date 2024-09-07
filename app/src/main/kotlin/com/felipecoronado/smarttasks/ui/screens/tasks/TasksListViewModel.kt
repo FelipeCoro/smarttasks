@@ -21,7 +21,13 @@ class TasksListViewModel @Inject constructor(private val repository: ITasksRepos
         viewModelScope.launch {
             _uiState.update { it.copy(loading = true) }
             try {
-                val tasksListFetchResult = repository.getAllTask()
+                val result = repository.getAllTask()
+                _uiState.update {
+                    it.copy(
+                        tasks = result.getOrThrow(),
+                        loading = false
+                    )
+                }
             } catch (e: Exception) {
                 _uiState.update { it.copy(error = e.message, loading = false) }
             }

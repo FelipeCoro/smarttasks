@@ -5,6 +5,13 @@ import com.felipecoronado.smarttasks.ui.models.TaskModel
 
 
 fun TaskDto.toTaskModel(): TaskModel {
-    return TaskModel("")
+    return TaskModel(
+        id,
+        targetDate,
+        dueDate ?: "",
+        title,
+        description,
+        priority
+    )
 }
 

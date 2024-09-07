@@ -26,7 +26,7 @@ fun LoadingScreen() {
         Image(
             painterResource(id = R.drawable.ic_logo),
             contentDescription = null,
-            modifier = Modifier.padding(top = 56.dp),
+            modifier = Modifier.padding(top = 240.dp),
         )
     }
 }

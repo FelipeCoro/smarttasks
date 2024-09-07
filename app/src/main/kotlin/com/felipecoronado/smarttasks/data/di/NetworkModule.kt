@@ -18,6 +18,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    private val json: Json = Json {
+        ignoreUnknownKeys = true
+    }
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
@@ -32,9 +35,9 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://demo1414406.mockable.io/")
+            .baseUrl("http://demo1414406.mockable.io")
             .client(okHttpClient)
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
 
