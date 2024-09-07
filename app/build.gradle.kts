@@ -1,8 +1,10 @@
 plugins {
-   alias(libs.plugins.android.application)
-   alias(libs.plugins.kotlin.android)
-   alias(libs.plugins.ksp)
-   alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.daggerhilt)
+    id(libs.plugins.kotlin.serialization.get().pluginId)
 }
 
 android {
@@ -72,6 +74,7 @@ dependencies {
 
     // Network
     implementation(libs.retrofit)
+    implementation(libs.retrofit.serialization)
     implementation(libs.serialization.json)
     implementation(libs.logging.interceptor)
 

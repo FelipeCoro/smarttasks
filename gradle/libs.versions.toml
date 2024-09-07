@@ -19,10 +19,11 @@ junit5 = "5.9.3"
 turbine = "0.7.0"
 assertk = "0.26.1"
 mockk = "1.12.5"
-kotlin = "2.0.10"
+kotlin = "2.0.20"
 android-gradle-plugin = "8.1.2"
-ksp = "2.0.10-1.0.24"
-serialization = "2.0.10"
+ksp = "2.0.20-1.0.24"
+serialization = "2.0.20"
+squareup-serialization = "2.11.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -36,6 +37,7 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "squareup-serialization" }
 serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization-json" }
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging-interceptor" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
@@ -66,5 +68,6 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+daggerhilt = { id ="com.google.dagger.hilt.android", version .ref = "hilt"}
 
 
