@@ -22,7 +22,7 @@ assertk = "0.26.1"
 mockk = "1.12.5"
 kotlin = "2.0.20"
 android-gradle-plugin = "8.1.2"
-ksp = "2.0.20-1.0.24"
+ksp = "2.0.20-1.0.25"
 serialization = "2.0.20"
 squareup-serialization = "2.11.0"
 
