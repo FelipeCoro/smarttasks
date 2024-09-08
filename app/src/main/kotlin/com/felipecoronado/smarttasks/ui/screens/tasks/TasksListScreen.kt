@@ -9,6 +9,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -19,6 +22,8 @@ import com.felipecoronado.smarttasks.ui.composables.LoadingScreen
 import com.felipecoronado.smarttasks.ui.composables.NoTaskScreen
 import com.felipecoronado.smarttasks.ui.composables.TaskItem
 import com.felipecoronado.smarttasks.ui.composables.TopNavBar
+import com.felipecoronado.smarttasks.ui.models.TaskModel
+import kotlinx.coroutines.delay
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -28,8 +33,12 @@ fun TasksListScreen() {
     val viewModel: TasksListViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    var selectedCategory by remember { mutableStateOf(TaskCategory.TODAY) }
+    val filteredTasks = filterTasks(uiState.tasks, selectedCategory)
+
 
     LaunchedEffect(Unit) {
+        delay(1000)
         viewModel.getAllTasks()
     }
 
@@ -49,14 +58,17 @@ fun TasksListScreen() {
                 taskDate.isEqual(today)
             }
             Column {
-                TopNavBar()
-                if (todayTasks.isEmpty()) {
+                TopNavBar { category ->
+                    selectedCategory = category
+                }
+
+                if (selectedCategory == TaskCategory.TODAY && todayTasks.isEmpty()) {
                     NoTaskScreen(text = stringResource(R.string.no_tasks_today))
                 } else {
                     Spacer(modifier = Modifier.height(18.dp))
                     LazyColumn {
-                        items(todayTasks.size) { index ->
-                            val task = todayTasks[index]
+                        items(filteredTasks.size) { index ->
+                            val task = filteredTasks[index]
                             Box(
                                 modifier = Modifier.padding(
                                     start = 16.dp,
@@ -74,6 +86,18 @@ fun TasksListScreen() {
     }
 }
 
+fun filterTasks(tasks: List<TaskModel>, category: TaskCategory): List<TaskModel> {
+    val today = LocalDate.now()
+    return when (category) {
+        TaskCategory.PAST -> tasks.filter { LocalDate.parse(it.targetDate).isBefore(today) }
+        TaskCategory.TODAY -> tasks.filter { LocalDate.parse(it.targetDate).isEqual(today) }
+        TaskCategory.UPCOMING -> tasks.filter { LocalDate.parse(it.targetDate).isAfter(today) }
+    }
+}
+
+enum class TaskCategory {
+    PAST, TODAY, UPCOMING
+}
 
 
 

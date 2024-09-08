@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Smart Tasks</string>
     <string name="today">Today</string>
+    <string name="past">Past Tasks</string>
+    <string name="upcoming">Upcoming</string>
     <string name="no_tasks_today">No tasks for today!</string>
     <string name="error_loading_tasks">An error occurred loading your tasks!</string>
     <string name="due_date">Due date</string>
