@@ -52,15 +52,22 @@ fun TasksListScreen() {
 
         else -> {
             val today = LocalDate.now()
+            val earliestDate = uiState.tasks.minOfOrNull { LocalDate.parse(it.targetDate) } ?: LocalDate.now()
+            val latestDate = uiState.tasks.maxOfOrNull { LocalDate.parse(it.targetDate) } ?: LocalDate.now()
             val todayTasks = uiState.tasks.filter { task ->
                 val taskDate = LocalDate.parse(task.targetDate, DateTimeFormatter.ISO_DATE)
                 taskDate.isEqual(today)
             }
             Column {
-                TopNavBar(onDateChanged = { date ->
-                    currentDate = date
-                })
-                if (currentDate == LocalDate.now() && todayTasks.isEmpty()) {
+                TopNavBar(
+                    currentDate = currentDate,
+                    earliestDate = earliestDate,
+                    latestDate = latestDate,
+                    onDateChanged = { date ->
+                        currentDate = date
+                    }
+                )
+                if (currentDate == today && todayTasks.isEmpty()) {
                     NoTaskScreen(text = stringResource(R.string.no_tasks_today))
                 } else {
                     Spacer(modifier = Modifier.height(18.dp))
