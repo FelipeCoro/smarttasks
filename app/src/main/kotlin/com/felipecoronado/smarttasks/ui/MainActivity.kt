@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.felipecoronado.smarttasks.ui.screens.tasks.TasksListScreen
+import com.felipecoronado.smarttasks.ui.navigation.NavGraph
 import com.felipecoronado.smarttasks.ui.theme.SmartTasksTheme
 import com.felipecoronado.smarttasks.ui.theme.YellowMain
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,8 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = YellowMain
                 ) {
-                   // LoadingScreen()
-                    TasksListScreen()
+                    NavGraph()
                 }
             }
         }
