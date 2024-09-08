@@ -1,6 +1,7 @@
 package com.felipecoronado.smarttasks.ui.screens.tasksdetails
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -10,6 +11,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipecoronado.smarttasks.R
 import com.felipecoronado.smarttasks.ui.composables.LoadingScreen
 import com.felipecoronado.smarttasks.ui.composables.NoTaskScreen
+import com.felipecoronado.smarttasks.ui.composables.TaskDetailsItem
+import com.felipecoronado.smarttasks.ui.composables.TasksDetailsTopNavBar
 
 @Composable
 fun TaskDetailScreen(
@@ -34,7 +37,10 @@ fun TaskDetailScreen(
         }
 
         else -> {
-
+            Column {
+                TasksDetailsTopNavBar { navigateBack() }
+                TaskDetailsItem(uiState.tasks)
+            }
         }
     }
 }

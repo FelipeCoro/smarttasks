@@ -21,10 +21,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipecoronado.smarttasks.R
 import com.felipecoronado.smarttasks.ui.composables.LoadingScreen
 import com.felipecoronado.smarttasks.ui.composables.NoTaskScreen
-import com.felipecoronado.smarttasks.ui.composables.TaskItem
-import com.felipecoronado.smarttasks.ui.composables.TopNavBar
+import com.felipecoronado.smarttasks.ui.composables.TaskListItem
+import com.felipecoronado.smarttasks.ui.composables.TasksTopNavBar
 import com.felipecoronado.smarttasks.ui.utils.filterTasksByDate
-import kotlinx.coroutines.delay
 import java.time.LocalDate
 
 @Composable()
@@ -36,7 +35,6 @@ fun TasksListScreen(navigateToTaskDetailScreen: (taskId: String) -> Unit) {
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
 
     LaunchedEffect(Unit) {
-        delay(1000)
         viewModel.getAllTasks()
     }
 
@@ -59,7 +57,7 @@ fun TasksListScreen(navigateToTaskDetailScreen: (taskId: String) -> Unit) {
                 uiState.tasks.maxOfOrNull { LocalDate.parse(it.targetDate) } ?: LocalDate.now()
 
             Column {
-                TopNavBar(
+                TasksTopNavBar(
                     currentDate = currentDate,
                     earliestDate = earliestDate,
                     latestDate = latestDate,
@@ -87,7 +85,7 @@ fun TasksListScreen(navigateToTaskDetailScreen: (taskId: String) -> Unit) {
                                         navigateToTaskDetailScreen(task.id)
                                     }
                             ) {
-                                TaskItem(task)
+                                TaskListItem(task)
                             }
                         }
                     }

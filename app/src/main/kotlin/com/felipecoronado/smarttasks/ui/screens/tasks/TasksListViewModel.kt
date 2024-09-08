@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipecoronado.smarttasks.domain.repositories.ITasksRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -20,6 +21,7 @@ class TasksListViewModel @Inject constructor(private val repository: ITasksRepos
     fun getAllTasks() {
         viewModelScope.launch {
             _uiState.update { it.copy(loading = true) }
+            delay(1000)
             try {
                 val result = repository.getAllTask()
                 _uiState.update {

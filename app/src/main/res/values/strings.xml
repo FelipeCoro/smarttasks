@@ -10,5 +10,6 @@
     <string name="no_due_date">No due date</string>
     <string name="no_days_left">N/A</string>
     <string name="days_left">Days left</string>
+    <string name="task_detail">Task detail</string>
 
 </resources>

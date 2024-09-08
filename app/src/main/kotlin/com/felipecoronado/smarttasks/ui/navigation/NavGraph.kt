@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.felipecoronado.smarttasks.ui.composables.SplashScreen
 import com.felipecoronado.smarttasks.ui.screens.tasks.TasksListScreen
 import com.felipecoronado.smarttasks.ui.screens.tasksdetails.TaskDetailScreen
 
@@ -14,7 +15,11 @@ import com.felipecoronado.smarttasks.ui.screens.tasksdetails.TaskDetailScreen
 fun NavGraph() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = TasksList.route) {
+    NavHost(navController = navController, startDestination = SplashScreen.route) {
+        composable(SplashScreen.route) {
+            SplashScreen(navigateToTasksListScreen = { navController.navigate(TasksList.route) })
+        }
+
         composable(TasksList.route) {
             TasksListScreen(navigateToTaskDetailScreen = { taskId ->
                 navController.navigate("${TaskDetails.route}/$taskId") {

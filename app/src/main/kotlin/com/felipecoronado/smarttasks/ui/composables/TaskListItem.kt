@@ -24,7 +24,7 @@ import com.felipecoronado.smarttasks.ui.utils.formatDueDate
 import com.felipecoronado.smarttasks.ui.utils.getDaysLeft
 
 @Composable
-fun TaskItem(task: TaskModel) {
+fun TaskListItem(task: TaskModel) {
 
     var formattedDueDate = stringResource(id = R.string.no_due_date)
     var daysLeft = stringResource(id = R.string.no_days_left)

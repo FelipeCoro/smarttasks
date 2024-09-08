@@ -27,7 +27,7 @@ import java.util.Locale
 
 
 @Composable
-fun TopNavBar(
+fun TasksTopNavBar(
     currentDate: LocalDate,
     earliestDate: LocalDate,
     latestDate: LocalDate,
