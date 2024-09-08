@@ -20,14 +20,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.felipecoronado.smarttasks.R
-import com.felipecoronado.smarttasks.ui.screens.tasks.TaskCategory
 import com.felipecoronado.smarttasks.ui.theme.AmsiTypography
 import com.felipecoronado.smarttasks.ui.theme.YellowMain
-
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @Composable
-fun TopNavBar(onCategorySelected: (TaskCategory) -> Unit) {
-    var selectedCategory by remember { mutableStateOf(TaskCategory.TODAY) }
+fun TopNavBar(onDateChanged: (LocalDate) -> Unit) {
+    var currentDate by remember { mutableStateOf(LocalDate.now()) }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -41,20 +42,22 @@ fun TopNavBar(onCategorySelected: (TaskCategory) -> Unit) {
             modifier = Modifier
                 .size(40.dp)
                 .clickable {
-                    selectedCategory = when (selectedCategory) {
-                        TaskCategory.TODAY -> TaskCategory.PAST
-                        TaskCategory.UPCOMING -> TaskCategory.TODAY
-                        else -> TaskCategory.PAST
-                    }
-                    onCategorySelected(selectedCategory)
+                    currentDate = currentDate.minusDays(1)
+                    onDateChanged(currentDate)
                 }
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = when (selectedCategory) {
-                TaskCategory.PAST -> stringResource(R.string.past)
-                TaskCategory.TODAY -> stringResource(R.string.today)
-                TaskCategory.UPCOMING -> stringResource(R.string.upcoming)
+            text = if (currentDate == LocalDate.now()) {
+                stringResource(id = R.string.today)
+            } else {
+
+                currentDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
+                    .replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(
+                            Locale.ROOT
+                        ) else it.toString()
+                    }
             },
             color = Color.White,
             style = AmsiTypography.titleMedium
@@ -66,12 +69,8 @@ fun TopNavBar(onCategorySelected: (TaskCategory) -> Unit) {
             modifier = Modifier
                 .size(40.dp)
                 .clickable {
-                    selectedCategory = when (selectedCategory) {
-                        TaskCategory.PAST -> TaskCategory.TODAY
-                        TaskCategory.TODAY -> TaskCategory.UPCOMING
-                        else -> TaskCategory.UPCOMING
-                    }
-                    onCategorySelected(selectedCategory)
+                    currentDate = currentDate.plusDays(1)
+                    onDateChanged(currentDate)
                 }
         )
     }

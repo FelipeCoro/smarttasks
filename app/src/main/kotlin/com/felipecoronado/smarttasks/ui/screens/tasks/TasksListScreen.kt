@@ -33,9 +33,8 @@ fun TasksListScreen() {
     val viewModel: TasksListViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    var selectedCategory by remember { mutableStateOf(TaskCategory.TODAY) }
-    val filteredTasks = filterTasks(uiState.tasks, selectedCategory)
-
+    var currentDate by remember { mutableStateOf(LocalDate.now()) }
+    val filteredTasks = filterTasksByDate(uiState.tasks, currentDate)
 
     LaunchedEffect(Unit) {
         delay(1000)
@@ -58,11 +57,10 @@ fun TasksListScreen() {
                 taskDate.isEqual(today)
             }
             Column {
-                TopNavBar { category ->
-                    selectedCategory = category
-                }
-
-                if (selectedCategory == TaskCategory.TODAY && todayTasks.isEmpty()) {
+                TopNavBar(onDateChanged = { date ->
+                    currentDate = date
+                })
+                if (currentDate == LocalDate.now() && todayTasks.isEmpty()) {
                     NoTaskScreen(text = stringResource(R.string.no_tasks_today))
                 } else {
                     Spacer(modifier = Modifier.height(18.dp))
@@ -86,18 +84,11 @@ fun TasksListScreen() {
     }
 }
 
-fun filterTasks(tasks: List<TaskModel>, category: TaskCategory): List<TaskModel> {
-    val today = LocalDate.now()
-    return when (category) {
-        TaskCategory.PAST -> tasks.filter { LocalDate.parse(it.targetDate).isBefore(today) }
-        TaskCategory.TODAY -> tasks.filter { LocalDate.parse(it.targetDate).isEqual(today) }
-        TaskCategory.UPCOMING -> tasks.filter { LocalDate.parse(it.targetDate).isAfter(today) }
-    }
+fun filterTasksByDate(tasks: List<TaskModel>, date: LocalDate): List<TaskModel> {
+    return tasks.filter { LocalDate.parse(it.targetDate).isEqual(date) }
 }
 
-enum class TaskCategory {
-    PAST, TODAY, UPCOMING
-}
+
 
 
 
