@@ -15,11 +15,11 @@ val amsiProFamily = FontFamily(
 )
 
 // Set of Material typography styles to start with
-val Typography = Typography(
+val AmsiTypography = Typography(
     bodyLarge = TextStyle(
         fontFamily = amsiProFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 10.sp,
+        fontSize = 18.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
@@ -27,9 +27,18 @@ val Typography = Typography(
     titleLarge = TextStyle(
         fontFamily = amsiProFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 15.sp,
+        fontSize = 28.sp,
         lineHeight = 28.sp,
         letterSpacing = 0.sp
     ),
 
-)
+    titleMedium = TextStyle(
+        fontFamily = amsiProFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        lineHeight = 28.sp,
+        letterSpacing = 0.sp
+    ),
+
+
+    )

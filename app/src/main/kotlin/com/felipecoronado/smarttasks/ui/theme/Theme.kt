@@ -63,7 +63,7 @@ fun SmartTasksTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = AmsiTypography,
         content = content
     )
 }
