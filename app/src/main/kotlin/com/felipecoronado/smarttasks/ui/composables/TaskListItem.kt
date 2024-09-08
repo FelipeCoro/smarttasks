@@ -20,10 +20,8 @@ import com.felipecoronado.smarttasks.ui.models.TaskModel
 import com.felipecoronado.smarttasks.ui.theme.AmsiTypography
 import com.felipecoronado.smarttasks.ui.theme.BeigeMain
 import com.felipecoronado.smarttasks.ui.theme.RedMain
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
-import java.util.Locale
+import com.felipecoronado.smarttasks.ui.utils.formatDueDate
+import com.felipecoronado.smarttasks.ui.utils.getDaysLeft
 
 @Composable
 fun TaskItem(task: TaskModel) {
@@ -32,18 +30,8 @@ fun TaskItem(task: TaskModel) {
     var daysLeft = stringResource(id = R.string.no_days_left)
 
     if (task.dueDate.isNotEmpty()) {
-        //Parse due date to "Sep-01-2024" format
-        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy")
-        val date = LocalDate.parse(task.dueDate, inputFormatter)
-        formattedDueDate = date.format(outputFormatter)
-            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
-
-        //Get days left in "16" format
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val dueDate = LocalDate.parse(task.dueDate, formatter)
-        val targetDate = LocalDate.parse(task.targetDate, formatter)
-        daysLeft = ChronoUnit.DAYS.between(targetDate, dueDate).toString()
+        formattedDueDate = formatDueDate(task.dueDate)
+        daysLeft = getDaysLeft(task.dueDate, task.targetDate)
     }
 
     Column(
