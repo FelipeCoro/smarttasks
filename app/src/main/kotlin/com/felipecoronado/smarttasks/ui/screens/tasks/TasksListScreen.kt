@@ -22,10 +22,9 @@ import com.felipecoronado.smarttasks.ui.composables.LoadingScreen
 import com.felipecoronado.smarttasks.ui.composables.NoTaskScreen
 import com.felipecoronado.smarttasks.ui.composables.TaskItem
 import com.felipecoronado.smarttasks.ui.composables.TopNavBar
-import com.felipecoronado.smarttasks.ui.models.TaskModel
+import com.felipecoronado.smarttasks.ui.utils.filterTasksByDate
 import kotlinx.coroutines.delay
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Composable()
 fun TasksListScreen() {
@@ -34,7 +33,6 @@ fun TasksListScreen() {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     var currentDate by remember { mutableStateOf(LocalDate.now()) }
-    val filteredTasks = filterTasksByDate(uiState.tasks, currentDate)
 
     LaunchedEffect(Unit) {
         delay(1000)
@@ -51,23 +49,25 @@ fun TasksListScreen() {
         }
 
         else -> {
-            val today = LocalDate.now()
-            val earliestDate = uiState.tasks.minOfOrNull { LocalDate.parse(it.targetDate) } ?: LocalDate.now()
-            val latestDate = uiState.tasks.maxOfOrNull { LocalDate.parse(it.targetDate) } ?: LocalDate.now()
-            val todayTasks = uiState.tasks.filter { task ->
-                val taskDate = LocalDate.parse(task.targetDate, DateTimeFormatter.ISO_DATE)
-                taskDate.isEqual(today)
-            }
+            var filteredTasks = filterTasksByDate(uiState.tasks, currentDate)
+
+            val earliestDate =
+                uiState.tasks.minOfOrNull { LocalDate.parse(it.targetDate) } ?: LocalDate.now()
+
+            val latestDate =
+                uiState.tasks.maxOfOrNull { LocalDate.parse(it.targetDate) } ?: LocalDate.now()
+
             Column {
                 TopNavBar(
                     currentDate = currentDate,
                     earliestDate = earliestDate,
                     latestDate = latestDate,
+                    tasks = uiState.tasks,
                     onDateChanged = { date ->
                         currentDate = date
-                    }
-                )
-                if (currentDate == today && todayTasks.isEmpty()) {
+                        filteredTasks = filterTasksByDate(uiState.tasks, date)
+                    })
+                if (filteredTasks.isEmpty()) {
                     NoTaskScreen(text = stringResource(R.string.no_tasks_today))
                 } else {
                     Spacer(modifier = Modifier.height(18.dp))
@@ -89,10 +89,6 @@ fun TasksListScreen() {
             }
         }
     }
-}
-
-fun filterTasksByDate(tasks: List<TaskModel>, date: LocalDate): List<TaskModel> {
-    return tasks.filter { LocalDate.parse(it.targetDate).isEqual(date) }
 }
 
 

@@ -13,10 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.felipecoronado.smarttasks.R
+import com.felipecoronado.smarttasks.ui.models.TaskModel
 import com.felipecoronado.smarttasks.ui.theme.AmsiTypography
 import com.felipecoronado.smarttasks.ui.theme.YellowMain
+import com.felipecoronado.smarttasks.ui.utils.findNextDateWithTasks
+import com.felipecoronado.smarttasks.ui.utils.findPreviousDateWithTasks
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -25,6 +29,7 @@ fun TopNavBar(
     currentDate: LocalDate,
     earliestDate: LocalDate,
     latestDate: LocalDate,
+    tasks: List<TaskModel>,
     onDateChanged: (LocalDate) -> Unit
 ) {
     Row(
@@ -40,7 +45,8 @@ fun TopNavBar(
                 modifier = Modifier
                     .size(40.dp)
                     .clickable {
-                        val newDate = currentDate.minusDays(1)
+                        val newDate =
+                            findPreviousDateWithTasks(currentDate.minusDays(1), earliestDate, tasks)
                         onDateChanged(newDate)
                     }
             )
@@ -49,7 +55,12 @@ fun TopNavBar(
         }
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = currentDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
+            text =
+            if (currentDate == LocalDate.now()) {
+                stringResource(id = R.string.today)
+            } else {
+                currentDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
+            },
             color = Color.White,
             style = AmsiTypography.titleMedium
         )
@@ -61,7 +72,8 @@ fun TopNavBar(
                 modifier = Modifier
                     .size(40.dp)
                     .clickable {
-                        val newDate = currentDate.plusDays(1)
+                        val newDate =
+                            findNextDateWithTasks(currentDate.plusDays(1), latestDate, tasks)
                         onDateChanged(newDate)
                     }
             )
@@ -70,3 +82,4 @@ fun TopNavBar(
         }
     }
 }
+
