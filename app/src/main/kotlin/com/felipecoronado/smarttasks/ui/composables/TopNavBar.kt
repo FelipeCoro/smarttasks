@@ -23,6 +23,8 @@ import com.felipecoronado.smarttasks.ui.utils.findNextDateWithTasks
 import com.felipecoronado.smarttasks.ui.utils.findPreviousDateWithTasks
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Locale
+
 
 @Composable
 fun TopNavBar(
@@ -60,6 +62,8 @@ fun TopNavBar(
                 stringResource(id = R.string.today)
             } else {
                 currentDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
+                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+
             },
             color = Color.White,
             style = AmsiTypography.titleMedium
