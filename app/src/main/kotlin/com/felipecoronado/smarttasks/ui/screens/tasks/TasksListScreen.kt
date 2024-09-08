@@ -72,7 +72,8 @@ fun TasksListScreen() {
                 } else {
                     Spacer(modifier = Modifier.height(18.dp))
                     LazyColumn {
-                        items(filteredTasks.size) { index ->
+                        val sortedTasks = filteredTasks.sortedByDescending { it.priority }
+                        items(sortedTasks.size) { index ->
                             val task = filteredTasks[index]
                             Box(
                                 modifier = Modifier.padding(
