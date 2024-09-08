@@ -29,13 +29,11 @@ fun NoTaskScreen(text:String) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        TopNavBar()
-
         Image(
             painterResource(id = R.drawable.ic_empty_screen),
             contentDescription = null,
             modifier = Modifier
-                .padding(top = 138.dp)
+                .padding(top = 120.dp)
                 .size(280.dp)
         )
 
