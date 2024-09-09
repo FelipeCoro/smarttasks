@@ -5,7 +5,6 @@ import com.felipecoronado.smarttasks.data.local.entities.TaskEntity
 import com.felipecoronado.smarttasks.ui.models.ResolvedStatus
 import com.felipecoronado.smarttasks.ui.models.TaskModel
 
-
 fun TaskEntity.toTaskModel(): TaskModel {
     return TaskModel(
         id,
