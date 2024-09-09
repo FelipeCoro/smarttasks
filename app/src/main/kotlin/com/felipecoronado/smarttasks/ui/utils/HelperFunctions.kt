@@ -39,6 +39,9 @@ fun findNextDateWithTasks(
     val today = LocalDate.now()
     var date = startDate
     while (filterTasksByDate(tasks, date).isEmpty()) {
+        if (date.isEqual(today)) {
+            return today
+        }
         date = date.plusDays(1)
         if (date.isAfter(latestDate)) {
             return startDate
@@ -60,13 +63,14 @@ fun findPreviousDateWithTasks(
     val today = LocalDate.now()
     var date = startDate
     while (filterTasksByDate(tasks, date).isEmpty()) {
+        if (date.isEqual(today)) {
+            return today
+        }
         date = date.minusDays(1)
         if (date.isBefore(earliestDate)) {
             return startDate
         }
-        if (date.isEqual(today)) {
-            return today
-        }
+
     }
     return date
 }

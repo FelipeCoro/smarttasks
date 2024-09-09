@@ -19,22 +19,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.felipecoronado.smarttasks.ui.theme.AmsiTypography
 import com.felipecoronado.smarttasks.ui.theme.GreenMain
 import com.felipecoronado.smarttasks.ui.theme.RedMain
 
 
-@Preview
 @Composable
-fun TaskCommentDialog() {
+fun TaskCommentDialog(hideDialog: (Boolean) -> Unit) {
 
     var userInput by remember { mutableStateOf("") }
 
     AlertDialog(
+        containerColor = Color.White,
         onDismissRequest = {
-            //showDialog = false
+            hideDialog(false)
         },
         title = {
             Text(
@@ -55,7 +54,7 @@ fun TaskCommentDialog() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color.Transparent),
-                        textStyle  = AmsiTypography.bodyLarge
+                        textStyle = AmsiTypography.bodyLarge
 
                     )
                     HorizontalDivider(
@@ -68,14 +67,14 @@ fun TaskCommentDialog() {
         },
         confirmButton = {
             TextButton(onClick = {
-                // showDialog = false
+                hideDialog(true)
             }) {
                 Text("Yes", style = AmsiTypography.titleMedium, color = GreenMain)
             }
         },
         dismissButton = {
             TextButton(onClick = {
-                // showDialog = false
+                hideDialog(false)
             }) {
                 Text("No", style = AmsiTypography.titleMedium, color = RedMain)
             }

@@ -32,7 +32,11 @@ fun TasksListScreen(navigateToTaskDetailScreen: (taskId: String) -> Unit) {
     val viewModel = hiltViewModel<TasksListViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    var currentDate by remember { mutableStateOf(LocalDate.now()) }
+    var currentDate by remember { mutableStateOf(viewModel.getCurrentDate()) }
+
+    LaunchedEffect(currentDate) {
+        viewModel.saveCurrentDate(currentDate)
+    }
 
     LaunchedEffect(Unit) {
         viewModel.getAllTasks()

@@ -108,7 +108,7 @@ fun TaskDetailsItem(task: TaskModel, resolveTask: (Boolean) -> Unit) {
                     .padding(start = 14.dp, end = 14.dp, top = 50.dp)
             ) {
                 Text(
-                    text = task.title,
+                    text = if (task.title.length > 80) task.title.take(80) + "..." else task.title,
                     color = when (resolvedStatus) {
                         ResolvedStatus.UNRESOLVED -> RedMain
                         ResolvedStatus.RESOLVED -> GreenMain
