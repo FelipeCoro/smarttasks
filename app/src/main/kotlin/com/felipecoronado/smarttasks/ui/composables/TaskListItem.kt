@@ -1,18 +1,24 @@
 package com.felipecoronado.smarttasks.ui.composables
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.felipecoronado.smarttasks.R
@@ -46,16 +52,34 @@ fun TaskListItem(task: TaskModel) {
             .wrapContentHeight()
             .padding(horizontal = 14.dp)
     ) {
-        Text(
-            text = task.title,
-            color = when (task.resolvedStatus) {
-                ResolvedStatus.UNRESOLVED -> RedMain
-                ResolvedStatus.RESOLVED -> GreenMain
-                ResolvedStatus.CANT_RESOLVE -> RedMain
-            },
-            style = AmsiTypography.titleLarge,
-            modifier = Modifier.padding(top = 14.dp, bottom = 10.dp)
-        )
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.wrapContentHeight()) {
+            Text(
+                text = task.title,
+                color = when (task.resolvedStatus) {
+                    ResolvedStatus.UNRESOLVED -> RedMain
+                    ResolvedStatus.RESOLVED -> GreenMain
+                    ResolvedStatus.CANT_RESOLVE -> RedMain
+                },
+                style = AmsiTypography.titleLarge,
+                modifier = Modifier.padding(top = 14.dp, bottom = 10.dp)
+                    .widthIn(max = 300.dp)
+                    .wrapContentWidth(Alignment.Start)
+                    .clipToBounds()
+
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            if (task.resolvedStatus != ResolvedStatus.UNRESOLVED) {
+                Image(
+                    painter = if (task.resolvedStatus == ResolvedStatus.RESOLVED)
+                        painterResource(id = R.drawable.ic_btn_resolved)
+                    else painterResource(id = R.drawable.ic_btn_unresolved),
+                    contentDescription = null,
+                    modifier = Modifier.size(28.dp).padding(top =4.dp)
+                )
+            }
+        }
         HorizontalDivider(
             thickness = 1.5.dp,
             color = BeigeMain,
