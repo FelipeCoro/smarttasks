@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -23,6 +26,10 @@ fun TaskDetailScreen(
     val viewModel = hiltViewModel<TaskDetailsViewModel>()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    var showDialog by remember { mutableStateOf(false) }
+
+    var resolvedStatus = false
+
     BackHandler { navigateBack() }
     LaunchedEffect(key1 = Unit) {
         viewModel.getTaskDetails(taskId)
@@ -39,11 +46,18 @@ fun TaskDetailScreen(
         else -> {
             Column {
                 TasksDetailsTopNavBar { navigateBack() }
-                TaskDetailsItem(uiState.tasks) { resolvedStatus ->
-                    viewModel.updateTaskStatus(resolvedStatus, taskId)
+                TaskDetailsItem(uiState.tasks) { status ->
+                    resolvedStatus = status
+                    showDialog = true
+                    // viewModel.updateTaskStatus(resolvedStatus, taskId)
                 }
             }
         }
     }
+
+    if (showDialog) {
+
+    }
 }
+
 
