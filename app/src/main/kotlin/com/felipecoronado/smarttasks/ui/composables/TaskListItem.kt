@@ -16,9 +16,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.felipecoronado.smarttasks.R
+import com.felipecoronado.smarttasks.ui.models.ResolvedStatus
 import com.felipecoronado.smarttasks.ui.models.TaskModel
 import com.felipecoronado.smarttasks.ui.theme.AmsiTypography
 import com.felipecoronado.smarttasks.ui.theme.BeigeMain
+import com.felipecoronado.smarttasks.ui.theme.GreenMain
 import com.felipecoronado.smarttasks.ui.theme.RedMain
 import com.felipecoronado.smarttasks.ui.utils.formatDueDate
 import com.felipecoronado.smarttasks.ui.utils.getDaysLeft
@@ -46,7 +48,11 @@ fun TaskListItem(task: TaskModel) {
     ) {
         Text(
             text = task.title,
-            color = RedMain,
+            color = when (task.resolvedStatus) {
+                ResolvedStatus.UNRESOLVED -> RedMain
+                ResolvedStatus.RESOLVED -> GreenMain
+                ResolvedStatus.CANT_RESOLVE -> RedMain
+            },
             style = AmsiTypography.titleLarge,
             modifier = Modifier.padding(top = 14.dp, bottom = 10.dp)
         )
@@ -71,14 +77,22 @@ fun TaskListItem(task: TaskModel) {
         Row(modifier = Modifier.padding(bottom = 14.dp)) {
             Text(
                 text = formattedDueDate,
-                color = RedMain,
+                color = when (task.resolvedStatus) {
+                    ResolvedStatus.UNRESOLVED -> RedMain
+                    ResolvedStatus.RESOLVED -> GreenMain
+                    ResolvedStatus.CANT_RESOLVE -> RedMain
+                },
                 style = AmsiTypography.titleLarge,
 
                 )
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = daysLeft,
-                color = RedMain,
+                color = when (task.resolvedStatus) {
+                    ResolvedStatus.UNRESOLVED -> RedMain
+                    ResolvedStatus.RESOLVED -> GreenMain
+                    ResolvedStatus.CANT_RESOLVE -> RedMain
+                },
                 style = AmsiTypography.titleLarge
             )
         }

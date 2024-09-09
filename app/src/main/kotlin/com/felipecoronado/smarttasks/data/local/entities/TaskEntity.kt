@@ -11,5 +11,12 @@ data class TaskEntity(
     val dueDate: String,
     val title: String,
     val description: String,
-    val priority: Int
+    val priority: Int,
+    val resolvedStatus: EntityResolvedStatus = EntityResolvedStatus.UNRESOLVED,
 )
+
+enum class EntityResolvedStatus {
+    UNRESOLVED,
+    RESOLVED,
+    CANT_RESOLVE
+}

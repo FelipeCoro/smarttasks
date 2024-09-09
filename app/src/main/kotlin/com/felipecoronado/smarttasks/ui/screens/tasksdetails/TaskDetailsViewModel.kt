@@ -34,4 +34,20 @@ class TaskDetailsViewModel @Inject constructor(private val repository: ITasksRep
             }
         }
     }
+
+    fun updateTaskStatus(taskResolved: Boolean, taskId:String) {
+       viewModelScope.launch {
+           try {
+               val result = repository.updatedTaskStatus(taskResolved, taskId)
+               _uiState.update {
+                   it.copy(
+                       tasks = result.getOrThrow(),
+                       loading = false
+                   )
+               }
+           } catch (e: Exception) {
+               _uiState.update { it.copy(error = e.message, loading = false) }
+           }
+       }
+    }
 }

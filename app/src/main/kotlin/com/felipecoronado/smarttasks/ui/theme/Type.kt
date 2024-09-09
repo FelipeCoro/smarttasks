@@ -35,7 +35,7 @@ val AmsiTypography = Typography(
     titleMedium = TextStyle(
         fontFamily = amsiProFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 24.sp,
+        fontSize = 23.sp,
         lineHeight = 28.sp,
         letterSpacing = 0.sp
     ),

@@ -21,7 +21,7 @@ class TasksListViewModel @Inject constructor(private val repository: ITasksRepos
     fun getAllTasks() {
         viewModelScope.launch {
             _uiState.update { it.copy(loading = true) }
-            delay(1000)
+            delay(500)
             try {
                 val result = repository.getAllTask()
                 _uiState.update {

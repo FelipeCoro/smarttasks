@@ -39,7 +39,9 @@ fun TaskDetailScreen(
         else -> {
             Column {
                 TasksDetailsTopNavBar { navigateBack() }
-                TaskDetailsItem(uiState.tasks)
+                TaskDetailsItem(uiState.tasks) { resolvedStatus ->
+                    viewModel.updateTaskStatus(resolvedStatus, taskId)
+                }
             }
         }
     }
