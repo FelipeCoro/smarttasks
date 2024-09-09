@@ -13,6 +13,7 @@ data class TaskEntity(
     val description: String,
     val priority: Int,
     val resolvedStatus: EntityResolvedStatus = EntityResolvedStatus.UNRESOLVED,
+    val userComment: String = ""
 )
 
 enum class EntityResolvedStatus {

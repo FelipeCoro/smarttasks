@@ -19,25 +19,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.felipecoronado.smarttasks.R
 import com.felipecoronado.smarttasks.ui.theme.AmsiTypography
 import com.felipecoronado.smarttasks.ui.theme.GreenMain
 import com.felipecoronado.smarttasks.ui.theme.RedMain
 
 
 @Composable
-fun TaskCommentDialog(hideDialog: (Boolean) -> Unit) {
+fun TaskCommentDialog(hideDialog: (Boolean, String) -> Unit) {
 
     var userInput by remember { mutableStateOf("") }
+    var showHint by remember { mutableStateOf(false) }
 
     AlertDialog(
         containerColor = Color.White,
         onDismissRequest = {
-            hideDialog(false)
+            hideDialog(false, userInput)
         },
         title = {
             Text(
-                text = "Do you want to leave a comment?",
+                text = stringResource(id = R.string.leave_comment),
                 style = AmsiTypography.titleMedium
             )
         },
@@ -50,12 +53,23 @@ fun TaskCommentDialog(hideDialog: (Boolean) -> Unit) {
                 ) {
                     BasicTextField(
                         value = userInput,
-                        onValueChange = { userInput = it },
+                        onValueChange = {
+                            userInput = it
+                            showHint = false
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color.Transparent),
-                        textStyle = AmsiTypography.bodyLarge
-
+                        textStyle = AmsiTypography.bodyLarge,
+                        decorationBox = { innerTextField ->
+                            if (userInput.isEmpty() && showHint) {
+                                Text(
+                                    text = stringResource(id = R.string.no_empty_comment),
+                                    style = AmsiTypography.bodyLarge.copy(color = Color.Gray)
+                                )
+                            }
+                            innerTextField()
+                        }
                     )
                     HorizontalDivider(
                         modifier = Modifier.align(Alignment.BottomCenter),
@@ -67,14 +81,18 @@ fun TaskCommentDialog(hideDialog: (Boolean) -> Unit) {
         },
         confirmButton = {
             TextButton(onClick = {
-                hideDialog(true)
+                if (userInput.isEmpty()) {
+                    showHint = true
+                } else {
+                    hideDialog(true, userInput)
+                }
             }) {
                 Text("Yes", style = AmsiTypography.titleMedium, color = GreenMain)
             }
         },
         dismissButton = {
             TextButton(onClick = {
-                hideDialog(false)
+                hideDialog(false, userInput)
             }) {
                 Text("No", style = AmsiTypography.titleMedium, color = RedMain)
             }

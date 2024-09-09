@@ -3,7 +3,7 @@ package com.felipecoronado.smarttasks.data.repositories
 import com.felipecoronado.smarttasks.data.local.dao.TasksDao
 import com.felipecoronado.smarttasks.data.local.entities.EntityResolvedStatus
 import com.felipecoronado.smarttasks.data.local.entities.TaskEntity
-import com.felipecoronado.smarttasks.data.network.dtos.TaskDto
+import com.felipecoronado.smarttasks.data.mappers.toTaskEntity
 import com.felipecoronado.smarttasks.data.network.service.RetrofitService
 import com.felipecoronado.smarttasks.domain.mappers.toTaskModel
 import com.felipecoronado.smarttasks.domain.repositories.ITasksRepository
@@ -59,20 +59,25 @@ class TaskRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updatedTaskStatus(taskStatus: Boolean, taskId: String): Result<TaskModel> {
+    override suspend fun updatedTaskStatus(
+        taskStatus: Boolean,
+        taskId: String,
+        userComment: String
+    ): Result<TaskModel> {
         return withContext(ioDispatcher) {
             try {
                 val task = database.getTask(taskId)
                 val updatedTask =
                     TaskEntity(
-                        task.id,
-                        task.targetDate,
-                        task.dueDate,
-                        task.title,
-                        task.description,
-                        task.priority,
+                        id = task.id,
+                        targetDate = task.targetDate,
+                        dueDate = task.dueDate,
+                        title = task.title,
+                        description = task.description,
+                        priority = task.priority,
                         resolvedStatus = if (taskStatus) EntityResolvedStatus.RESOLVED
-                        else EntityResolvedStatus.CANT_RESOLVE
+                        else EntityResolvedStatus.CANT_RESOLVE,
+                        userComment = userComment
                     )
                 database.insertTask(updatedTask)
                 Result.success(updatedTask.toTaskModel())
@@ -80,18 +85,6 @@ class TaskRepositoryImpl @Inject constructor(
                 Result.failure(e)
             }
         }
-    }
-
-
-    private fun TaskDto.toTaskEntity(): TaskEntity {
-        return TaskEntity(
-            id,
-            targetDate,
-            dueDate ?: "",
-            title,
-            description,
-            priority,
-        )
     }
 
     private suspend fun backUpTasks(taskList: List<TaskEntity>) {

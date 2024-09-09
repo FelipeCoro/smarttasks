@@ -33,7 +33,7 @@ fun TaskDetailScreen(
 
     var showDialog by remember { mutableStateOf(false) }
 
-    var resolvedStatus = false
+    var resolvedStatus by remember { mutableStateOf(false) }
 
     BackHandler { navigateBack() }
     LaunchedEffect(key1 = Unit) {
@@ -65,9 +65,9 @@ fun TaskDetailScreen(
             Modifier
                 .background(YellowMain)
                 .fillMaxSize()) {
-            TaskCommentDialog { leaveComment ->
+            TaskCommentDialog { leaveComment, userComment ->
                 showDialog = false
-                viewModel.updateTaskStatus(resolvedStatus, taskId, leaveComment)
+                viewModel.updateTaskStatus(resolvedStatus, taskId, leaveComment, userComment)
             }
         }
 

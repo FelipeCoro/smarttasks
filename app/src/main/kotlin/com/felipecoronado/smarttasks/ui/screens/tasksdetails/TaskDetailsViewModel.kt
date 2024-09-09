@@ -37,10 +37,17 @@ class TaskDetailsViewModel @Inject constructor(
         }
     }
 
-    fun updateTaskStatus(taskResolved: Boolean, taskId: String, leaveComment: Boolean) {
+    fun updateTaskStatus(
+        taskResolved: Boolean,
+        taskId: String,
+        leaveComment: Boolean,
+        userComment: String
+    ) {
         viewModelScope.launch {
             try {
-                val result = repository.updatedTaskStatus(taskResolved, taskId)
+                var userInput = userComment
+                if (!leaveComment) userInput = ""
+                val result = repository.updatedTaskStatus(taskResolved, taskId, userInput)
                 _uiState.update {
                     it.copy(
                         tasks = result.getOrThrow(),
