@@ -31,7 +31,7 @@ fun LoadingScreen() {
             painterResource(id = R.drawable.ic_logo),
             contentDescription = null,
             modifier = Modifier
-                .padding(top = 180.dp)
+                .padding(top = 100.dp)
                 .size(200.dp),
         )
         Spacer(modifier = Modifier.weight(1f))
