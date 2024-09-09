@@ -1,4 +1,4 @@
-package com.felipecoronado.smarttasks.ui.screens.tasks
+package com.felipecoronado.smarttasks.ui.screens.util
 
 import com.felipecoronado.smarttasks.ui.models.ResolvedStatus
 import com.felipecoronado.smarttasks.ui.models.TaskModel
@@ -11,7 +11,7 @@ val task1 = TaskModel(
     title = "Complete Project Report",
     description = "Finish the final report for the project and submit it to the manager.",
     priority = 1,
-    resolvedStatus = ResolvedStatus.UNRESOLVED
+    resolvedStatus = ResolvedStatus.CANT_RESOLVE
 )
 
 val task2 = TaskModel(
@@ -31,7 +31,7 @@ val task3 = TaskModel(
     title = "Code Review",
     description = "Review the code for the new feature implementation.",
     priority = 3,
-    resolvedStatus = ResolvedStatus.CANT_RESOLVE
+    resolvedStatus = ResolvedStatus.UNRESOLVED
 )
 
 

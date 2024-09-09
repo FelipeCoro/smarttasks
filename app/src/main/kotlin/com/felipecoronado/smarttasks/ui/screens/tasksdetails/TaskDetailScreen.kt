@@ -51,7 +51,7 @@ fun TaskDetailScreen(
         else -> {
             Column {
                 TasksDetailsTopNavBar { navigateBack() }
-                TaskDetailsItem(uiState.tasks) { status ->
+                TaskDetailsItem(uiState.task) { status ->
                     resolvedStatus = status
                     showDialog = true
 

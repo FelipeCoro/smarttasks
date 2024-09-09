@@ -1,12 +1,13 @@
-package com.felipecoronado.smarttasks.ui.screens.tasks
+package com.felipecoronado.smarttasks.ui.screens.util
 
 import com.felipecoronado.smarttasks.domain.repositories.ITasksRepository
+import com.felipecoronado.smarttasks.ui.models.ResolvedStatus
 import com.felipecoronado.smarttasks.ui.models.TaskModel
 
 class RepositoryFake : ITasksRepository {
 
 
-    val taskList = listOf(
+    val taskList = mutableListOf(
         task1, task2, task3
     )
 
@@ -23,6 +24,11 @@ class RepositoryFake : ITasksRepository {
         taskId: String,
         userComment: String
     ): Result<TaskModel> {
-        return Result.success(taskList.first { it.id == taskId })
+        val taskIndex = taskList.indexOfFirst { it.id == taskId }
+        val updatedTask = taskList[taskIndex].copy(
+            resolvedStatus = if (taskStatus) ResolvedStatus.RESOLVED else ResolvedStatus.UNRESOLVED
+        )
+        taskList[taskIndex] = updatedTask
+        return Result.success(updatedTask)
     }
 }

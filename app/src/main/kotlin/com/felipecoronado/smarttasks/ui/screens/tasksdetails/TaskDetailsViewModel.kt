@@ -27,7 +27,7 @@ class TaskDetailsViewModel @Inject constructor(
                 val result = repository.getTaskDetails(taskId)
                 _uiState.update {
                     it.copy(
-                        tasks = result.getOrThrow(),
+                        task = result.getOrThrow(),
                         loading = false
                     )
                 }
@@ -50,7 +50,7 @@ class TaskDetailsViewModel @Inject constructor(
                 val result = repository.updatedTaskStatus(taskResolved, taskId, userInput)
                 _uiState.update {
                     it.copy(
-                        tasks = result.getOrThrow(),
+                        task = result.getOrThrow(),
                         loading = false
                     )
                 }
